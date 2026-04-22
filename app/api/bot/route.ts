@@ -82,30 +82,30 @@ bot.on("text", async (ctx) => {
     );
   }
 
-  try {
-    // .env dagi qo'shtirnoqlarni tozalash
-    const cleanChannelId = String(CHANNEL_ID).replace(/['"]/g, "");
+//   try {
+//     // .env dagi qo'shtirnoqlarni tozalash
+//     const cleanChannelId = String(CHANNEL_ID).replace(/['"]/g, "");
 
-    // Kanalga yuborish (HTML rejimida)
-    await ctx.telegram.sendMessage(cleanChannelId, formattedText, {
-      parse_mode: "HTML",
-    });
+//     // Kanalga yuborish (HTML rejimida)
+//     await ctx.telegram.sendMessage(cleanChannelId, formattedText, {
+//       parse_mode: "HTML",
+//     });
 
-    await ctx.reply("✅ <b>Kanalga muvaffaqiyatli yuborildi!</b>", {
-      parse_mode: "HTML",
-    });
-  } catch (error: any) {
-    console.error("Telegram error:", error);
+//     await ctx.reply("✅ <b>Kanalga muvaffaqiyatli yuborildi!</b>", {
+//       parse_mode: "HTML",
+//     });
+//   } catch (error: any) {
+//     console.error("Telegram error:", error);
 
-    let detailedError = "Bot kanalda admin ekanini tekshiring.";
-    if (error.response) {
-      detailedError = `Kod: ${error.response.error_code} - ${error.response.description}`;
-    }
+//     let detailedError = "Bot kanalda admin ekanini tekshiring.";
+//     if (error.response) {
+//       detailedError = `Kod: ${error.response.error_code} - ${error.response.description}`;
+//     }
 
-    await ctx.reply(`❌ <b>Xatolik yuz berdi:</b>\n${detailedError}`, {
-      parse_mode: "HTML",
-    });
-  }
+//     await ctx.reply(`❌ <b>Xatolik yuz berdi:</b>\n${detailedError}`, {
+//       parse_mode: "HTML",
+//     });
+//   }
 });
 
 // Webhook orqali Telegram xabarlarini qabul qilish
