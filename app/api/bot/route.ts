@@ -62,6 +62,27 @@ bot.on("text", async (ctx) => {
   }
 
   try {
+    // .env dagi CHANNEL_ID ni tozalab, raqamga aylantiramiz
+    const rawId = process.env.CHANNEL_ID || "";
+    const cleanId = rawId.replace(/['"]/g, "").trim();
+
+    // Telegram kanallari uchun ID raqam turida bo'lishi shart
+    const targetChat = Number(cleanId);
+
+    await ctx.telegram.sendMessage(targetChat, formattedText, {
+      parse_mode: "HTML",
+    });
+
+    await ctx.reply("✅ Kanalga muvaffaqiyatli yuborildi!");
+  } catch (error: any) {
+    // Agar raqam formatida ham xato bersa, username bilan sinab ko'rish uchun:
+    console.error("Xato tafsiloti:", error);
+    await ctx.reply(
+      `❌ Xato: ${error.description}\nKutilgan ID: ${process.env.CHANNEL_ID}`,
+    );
+  }
+
+  try {
     // .env dagi qo'shtirnoqlarni tozalash
     const cleanChannelId = String(CHANNEL_ID).replace(/['"]/g, "");
 
