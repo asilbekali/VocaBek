@@ -1,36 +1,63 @@
+// Raqamni matnga o'girish (one, two, three...)
+const numberToWords = (num: number): string => {
+  const words = [
+    "zero",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "fifteen",
+    "sixteen",
+    "seventeen",
+    "eighteen",
+    "nineteen",
+  ];
+  return words[num] || num.toString();
+};
+
 export function formatVocabularyMessage(
   text: string,
   index: number,
 ): string | null {
-  // Matnni qatorlarga bo'lamiz
   const lines = text
     .split("\n")
     .map((l) => l.trim())
     .filter((l) => l.length > 0);
 
-  // Kamida 4 ta qism bo'lishi kerak: Word, Definition, Example, Note
   if (lines.length < 4) return null;
 
   const word = lines[0];
   const definition = lines[1];
   const example = lines[2];
-  // Qolgan hamma qatorlarni birlashtirib "Note" qilamiz
   const note = lines.slice(3).join("\n");
 
-  const wordNumberTag = `#word_${index}`;
-  const wordHashtag = `#${word.toLowerCase().replace(/\s+/g, "_")}`;
+  const wordNumberTag = `#word_${numberToWords(index)}`;
+  const lowerWord = word.toLowerCase().replace(/\s+/g, "_");
 
+  // Rasmdagi kabi HTML format
   return `
 ${wordNumberTag}
 
-<b>${word}</b> 👇
+${word} 👇
 
+<pre>copy
 ${definition}
+</pre>
 
-<b>Example:</b> <i>${example}</i>
+Example: ${example}
 
-${wordHashtag}
+${lowerWord}-for actions or trouble.
 
-${note}
+<i>${note}</i>
   `.trim();
 }
