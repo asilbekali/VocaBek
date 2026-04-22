@@ -1,21 +1,20 @@
 export function formatVocabularyMessage(text: string): string | null {
-  // Format: So'z | Ta'rif | Namuna | O'zbekcha izoh
   const parts = text.split("|").map((p) => p.trim());
-
   if (parts.length < 4) return null;
 
   const [word, definition, example, uzbekNote] = parts;
   const hashtag = `#${word.toLowerCase().replace(/\s+/g, "_")}`;
 
+  // Markdown o'rniga HTML teglari (<b>, <i>) ishlatamiz
   return `
 ${hashtag} 
 
-**${word}** 👇
+<b>${word}</b> 👇
 
 ${definition}
 
-**Example:** ${example}
+<b>Example:</b> <i>${example}</i>
 
-**${word.toLowerCase()}** — ${uzbekNote}
+<b>${word.toLowerCase()}</b> — ${uzbekNote}
   `.trim();
 }
