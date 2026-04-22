@@ -1,4 +1,3 @@
-// Raqamni matnga o'girish (one, two, three...)
 const numberToWords = (num: number): string => {
   const words = [
     "zero",
@@ -12,15 +11,6 @@ const numberToWords = (num: number): string => {
     "eight",
     "nine",
     "ten",
-    "eleven",
-    "twelve",
-    "thirteen",
-    "fourteen",
-    "fifteen",
-    "sixteen",
-    "seventeen",
-    "eighteen",
-    "nineteen",
   ];
   return words[num] || num.toString();
 };
@@ -33,31 +23,28 @@ export function formatVocabularyMessage(
     .split("\n")
     .map((l) => l.trim())
     .filter((l) => l.length > 0);
-
   if (lines.length < 4) return null;
 
-  const word = lines[0];
-  const definition = lines[1];
-  const example = lines[2];
-  const note = lines.slice(3).join("\n");
+  const [word, definition, example, ...noteParts] = lines;
+  const note = noteParts.join("\n");
 
-  const wordNumberTag = `#word_${numberToWords(index)}`;
-  const lowerWord = word.toLowerCase().replace(/\s+/g, "_");
+  // Teglar uchun formatlash
+  const wordTag = `#word_${numberToWords(index)}`;
+  const actionTag = `#${word.toLowerCase().replace(/\s+/g, "_")}`;
 
-  // Rasmdagi kabi HTML format
   return `
-${wordNumberTag}
+${wordTag}
 
-${word} 👇
+<b>${word}</b> 👇
 
-<pre>copy
+<pre>
 ${definition}
 </pre>
 
-Example: ${example}
+<b>Example:</b> ${example}
 
-${lowerWord}-for actions or trouble.
+${actionTag}
 
-<i>${note}</i>
+<b>Note:</b> <i>${note}</i>
   `.trim();
 }
