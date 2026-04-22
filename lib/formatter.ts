@@ -1,12 +1,27 @@
-export function formatVocabularyMessage(text: string): string | null {
-  const parts = text.split("|").map((p) => p.trim());
-  if (parts.length < 4) return null;
+export function formatVocabularyMessage(
+  text: string,
+  index: number,
+): string | null {
+  // Matnni qatorlarga bo'lamiz
+  const lines = text
+    .split("\n")
+    .map((l) => l.trim())
+    .filter((l) => l.length > 0);
 
-  const [word, definition, example, uzbekNote] = parts;
-  const hashtag = `#${word.toLowerCase().replace(/\s+/g, "_")}`;
+  // Kamida 4 ta qism bo'lishi kerak: Word, Definition, Example, Note
+  if (lines.length < 4) return null;
+
+  const word = lines[0];
+  const definition = lines[1];
+  const example = lines[2];
+  // Qolgan hamma qatorlarni birlashtirib "Note" qilamiz
+  const note = lines.slice(3).join("\n");
+
+  const wordNumberTag = `#word_${index}`;
+  const wordHashtag = `#${word.toLowerCase().replace(/\s+/g, "_")}`;
 
   return `
-${hashtag} 
+${wordNumberTag}
 
 <b>${word}</b> 👇
 
@@ -14,6 +29,8 @@ ${definition}
 
 <b>Example:</b> <i>${example}</i>
 
-<b>${word.toLowerCase()}</b> — ${uzbekNote}
+${wordHashtag}
+
+${note}
   `.trim();
 }
